@@ -1,0 +1,1191 @@
+  [1m[36m (67.1ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (41.3ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateGrumbles (20150824172906)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (61.0ms)[0m  [1mCREATE TABLE "grumbles" ("id" serial primary key, "authorName" character varying, "content" text, "title" character varying, "photoUrl" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150824172906"]]
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+Migrating to CreateComments (20150824172941)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (56.6ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "authorName" character varying, "content" text, "grumble_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (27.2ms)[0m  CREATE  INDEX  "index_comments_on_grumble_id" ON "comments"  ("grumble_id")
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_7634355a25"
+FOREIGN KEY ("grumble_id")
+  REFERENCES "grumbles" ("id")
+[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150824172941"]]
+  [1m[36m (13.8ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (4.9ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'comments'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.9ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'grumbles'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mSQL (0.2ms)[0m  DELETE FROM "comments"
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "grumbles"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["authorName", "Jesse"], ["title", "29 over-rated kanye quotes and cheeses"], ["content", "You can fail at what you don't want. So you might as well take a chance on doing what you love."], ["photoUrl", "https://splashbase.s3.amazonaws.com/getrefe/regular/tumblr_nthmr4bBnU1slhhf0o1_1280.jpg"], ["created_at", "2016-08-16 19:08:51.577078"], ["updated_at", "2016-08-16 19:08:51.577078"]]
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Adrian"], ["content", "There is no God. There is only a conniving philosopher."], ["grumble_id", 1], ["created_at", "2016-08-16 19:08:51.845642"], ["updated_at", "2016-08-16 19:08:51.845642"]]
+  [1m[36m (14.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Matt"], ["content", "I've responded to this in my post about an aggressive and clever Spaniard."], ["grumble_id", 1], ["created_at", "2016-08-16 19:08:57.190397"], ["updated_at", "2016-08-16 19:08:57.190397"]]
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Jesse"], ["content", "There is no God. There is only self-righteously making a montage about a whiny poker dealer on the castle battlements."], ["grumble_id", 1], ["created_at", "2016-08-16 19:09:02.275485"], ["updated_at", "2016-08-16 19:09:02.275485"]]
+  [1m[36m (24.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Matt"], ["content", "This is all well and good, but one mustn't forget about a vegan Navy SEAL who is obnoxiously hawking home-grown tomatoes to a chef on the slopes of Mount Doom."], ["grumble_id", 1], ["created_at", "2016-08-16 19:09:12.373239"], ["updated_at", "2016-08-16 19:09:12.373239"]]
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Adam"], ["title", "24 tigers eating sandwiches"], ["content", "Never pay full price for a sofa at DFS."], ["photoUrl", "https://splashbase.s3.amazonaws.com/unsplash/regular/shore-house.jpg%3Ffit%3Dcrop%26fm%3Djpg%26h%3D725%26q%3D75%26w%3D950"], ["created_at", "2016-08-16 19:09:25.365625"], ["updated_at", "2016-08-16 19:09:25.365625"]]
+  [1m[36m (13.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adam"], ["content", "Who wrote this? It sounds like it was written by a sick and tattooed nerd who is selfishly posting an indignant Facebook status update about an ugly and blue-tinted horseman of the Apocalypse."], ["grumble_id", 2], ["created_at", "2016-08-16 19:09:30.448245"], ["updated_at", "2016-08-16 19:09:30.448245"]]
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Andy"], ["content", "I'm not sure how to feel about this. My opinions are usually informed by dueling a considerate dictator every couple of hours."], ["grumble_id", 2], ["created_at", "2016-08-16 19:09:31.722756"], ["updated_at", "2016-08-16 19:09:31.722756"]]
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adrian"], ["content", "Hey, OP, people said the same thing when there was a hot fireman who is noisily investing large amounts of cash for a software engineer."], ["grumble_id", 2], ["created_at", "2016-08-16 19:09:31.998939"], ["updated_at", "2016-08-16 19:09:31.998939"]]
+  [1m[35m (14.5ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Andy"], ["title", "The 12 absurd tornadoes"], ["content", "No \"brand\" is your friend."], ["photoUrl", "https://splashbase.s3.amazonaws.com/jaymantri/regular/tumblr_nmxf6fUvoS1qfirfao1_1280.jpg"], ["created_at", "2016-08-16 19:09:39.701494"], ["updated_at", "2016-08-16 19:09:39.701494"]]
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Matt"], ["content", "I disagree. I'd encourage you to think more broadly of a simpleminded dad who is running from an acne-scarred stormtrooper in a quiet Alpine meadow."], ["grumble_id", 3], ["created_at", "2016-08-16 19:09:39.937394"], ["updated_at", "2016-08-16 19:09:39.937394"]]
+  [1m[35m (14.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Matt"], ["content", "Didn't you know? The government is secretly controlled by wisely trying to act impressive toward an agile and talkative basketball player."], ["grumble_id", 3], ["created_at", "2016-08-16 19:09:45.031885"], ["updated_at", "2016-08-16 19:09:45.031885"]]
+  [1m[36m (13.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Matt"], ["content", "That photo reminds me of the time I saw mysteriously making a sculpture of a simpleminded Ewok."], ["grumble_id", 3], ["created_at", "2016-08-16 19:09:45.286329"], ["updated_at", "2016-08-16 19:09:45.286329"]]
+  [1m[35m (13.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Robin"], ["title", "23 BurgerKing employees taking selfies"], ["content", "Always double check you actually attached the file to the email."], ["photoUrl", "https://splashbase.s3.amazonaws.com/splitshire/regular/768x506xSplitShire-0352-e1450309369145-768x506.jpg.pagespeed.ic.EEgdqJwzN8.jpg"], ["created_at", "2016-08-16 19:09:47.482323"], ["updated_at", "2016-08-16 19:09:47.482323"]]
+  [1m[36m (14.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Jesse"], ["content", "This just goes to show your ignorance about an aggressive grandma who is nervously folding laundry for an ancient and posh Spaniard in the morning."], ["grumble_id", 4], ["created_at", "2016-08-16 19:09:52.572112"], ["updated_at", "2016-08-16 19:09:52.572112"]]
+  [1m[35m (23.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Matt"], ["content", "There is no God. There is only a master of disguise who is ferociously applying sunscreen to an unethical pickpocket."], ["grumble_id", 4], ["created_at", "2016-08-16 19:09:52.847901"], ["updated_at", "2016-08-16 19:09:52.847901"]]
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Jesse"], ["content", "It seems like all you see on the news these days is a friendly farmer who is suspiciously hawking home-grown tomatoes to a beautiful and bloated calligraphy enthusiast."], ["grumble_id", 4], ["created_at", "2016-08-16 19:10:02.945558"], ["updated_at", "2016-08-16 19:10:02.945558"]]
+  [1m[35m (13.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Jesse"], ["content", "There is no God. There is only a mailman who is foolishly relaxing with a sweaty calligraphy enthusiast."], ["grumble_id", 4], ["created_at", "2016-08-16 19:10:08.056503"], ["updated_at", "2016-08-16 19:10:08.056503"]]
+  [1m[36m (14.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Andy"], ["content", "This is all well and good, but one mustn't forget about an off-white, tactless, and snide Spaniard."], ["grumble_id", 4], ["created_at", "2016-08-16 19:10:13.138358"], ["updated_at", "2016-08-16 19:10:13.138358"]]
+  [1m[35m (23.7ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Adrian"], ["title", "11 random cheeses and kanye quotes"], ["content", "Everything matters, but nothing matters that much."], ["photoUrl", "https://splashbase.s3.amazonaws.com/unsplash/regular/tumblr_n6et0idQ131st5lhmo1_1280.jpg"], ["created_at", "2016-08-16 19:10:26.191662"], ["updated_at", "2016-08-16 19:10:26.191662"]]
+  [1m[36m (13.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adrian"], ["content", "Your post would be better if it included a hot coal miner who is wisely delivering a eulogy of a simpleminded bus driver back in the good ol' days."], ["grumble_id", 5], ["created_at", "2016-08-16 19:10:28.238682"], ["updated_at", "2016-08-16 19:10:28.238682"]]
+  [1m[35m (13.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Matt"], ["content", "I disagree. I'd encourage you to think more broadly of a self-assured and uncomfortably loud Spaniard and an outgoing college student."], ["grumble_id", 5], ["created_at", "2016-08-16 19:10:28.495640"], ["updated_at", "2016-08-16 19:10:28.495640"]]
+  [1m[36m (14.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["authorName", "Matt"], ["title", "10 chickens writing rails apps that were better in the 90's"], ["content", "Sometimes, you just need to say sorry. Even if it's not your fault."], ["photoUrl", "https://splashbase.s3.amazonaws.com/unsplash/regular/photo-1428189923803-e9801d464d76%3Fixlib%3Drb-0.3.5%26q%3D80%26fm%3Djpg%26crop%3Dentropy%26w%3D1080%26fit%3Dmax%26s%3D467ee7b8a091aa5cb8bc9b496aada853"], ["created_at", "2016-08-16 19:10:31.007969"], ["updated_at", "2016-08-16 19:10:31.007969"]]
+  [1m[35m (14.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Robin"], ["content", "It seems like all you see on the news these days is a tap-dancer who is lecturing to a miniscule mailman."], ["grumble_id", 6], ["created_at", "2016-08-16 19:10:31.274144"], ["updated_at", "2016-08-16 19:10:31.274144"]]
+  [1m[36m (26.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Jesse"], ["content", "This just goes to show your ignorance about a frightening Hogwarts professor who is obediently writing a letter."], ["grumble_id", 6], ["created_at", "2016-08-16 19:10:31.551765"], ["updated_at", "2016-08-16 19:10:31.551765"]]
+  [1m[35m (14.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Jesse"], ["content", "Ugh. Modern society is so obsessed with a short fireman who is dramatically out to lunch with a bloated robot."], ["grumble_id", 6], ["created_at", "2016-08-16 19:10:36.739962"], ["updated_at", "2016-08-16 19:10:36.739962"]]
+  [1m[36m (26.5ms)[0m  [1mCOMMIT[0m
+
+
+Started GET "/" for 127.0.0.1 at 2016-08-16 15:11:16 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 15:11:16 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.6ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 23ms (Views: 0.4ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 15:37:07 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.6ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:13:21 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:14:38 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-08-16 16:16:50 -0400
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:16:50 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.2ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:18:00 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.5ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:18:17 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:18:21 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:19:45 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (15.7ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 21ms (Views: 0.1ms | ActiveRecord: 15.7ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:19:48 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:22:57 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:22:58 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.5ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:22:58 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (1.7ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 8ms (Views: 0.4ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:22:58 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:22:58 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (1.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:23:14 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:23:19 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:23:36 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:23:40 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:24:48 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.6ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 6ms (Views: 0.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:24:48 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:24:48 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 5ms (Views: 0.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:24:58 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:38:54 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (1.6ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 13ms (Views: 2.0ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/grumbles/4" for 127.0.0.1 at 2016-08-16 16:39:36 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"4"}
+  [1m[36mGrumble Load (1.1ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 4]]
+Completed 200 OK in 11ms (Views: 0.3ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:43:37 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (1.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 13ms (Views: 0.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:44:15 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles/6" for 127.0.0.1 at 2016-08-16 16:48:03 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mGrumble Load (0.2ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 6]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles/6" for 127.0.0.1 at 2016-08-16 16:48:05 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mGrumble Load (0.2ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 6]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles/6" for 127.0.0.1 at 2016-08-16 16:48:05 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mGrumble Load (1.3ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 6]]
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/grumbles/6" for 127.0.0.1 at 2016-08-16 16:48:05 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mGrumble Load (1.6ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 6]]
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:48:10 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles/3" for 127.0.0.1 at 2016-08-16 16:48:13 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mGrumble Load (0.2ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 3]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 16:48:17 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:19:19 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.9ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 6ms (Views: 0.2ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:33:09 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:33:13 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 8ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:33:57 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"I love my class", "authorName"=>"Pamela", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "grumble"=>{"authorName"=>"Pamela", "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"}}
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:33:57.430625"], ["updated_at", "2016-08-16 21:33:57.430625"]]
+  [1m[35m (3.1ms)[0m  COMMIT
+Completed 201 Created in 11ms (Views: 0.3ms | ActiveRecord: 4.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:33:57 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>7, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:33:57.430Z", "updated_at"=>"2016-08-16T21:33:57.430Z", "grumble"=>{"id"=>7, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:33:57.430Z", "updated_at"=>"2016-08-16T21:33:57.430Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:33:57.772989"], ["updated_at", "2016-08-16 21:33:57.772989"]]
+  [1m[36m (1.6ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 4ms (Views: 0.1ms | ActiveRecord: 1.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:07 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"I love my class", "authorName"=>"Pamela", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "grumble"=>{"authorName"=>"Pamela", "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"}}
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:07.218005"], ["updated_at", "2016-08-16 21:35:07.218005"]]
+  [1m[35m (2.4ms)[0m  COMMIT
+Completed 201 Created in 10ms (Views: 0.4ms | ActiveRecord: 3.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:08 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>9, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:07.218Z", "updated_at"=>"2016-08-16T21:35:07.218Z", "grumble"=>{"id"=>9, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:07.218Z", "updated_at"=>"2016-08-16T21:35:07.218Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.7ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:08.757072"], ["updated_at", "2016-08-16 21:35:08.757072"]]
+  [1m[36m (2.7ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 10ms (Views: 0.3ms | ActiveRecord: 3.6ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:09 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>10, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:08.757Z", "updated_at"=>"2016-08-16T21:35:08.757Z", "grumble"=>{"id"=>10, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:08.757Z", "updated_at"=>"2016-08-16T21:35:08.757Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:09.820901"], ["updated_at", "2016-08-16 21:35:09.820901"]]
+  [1m[35m (2.6ms)[0m  COMMIT
+Completed 201 Created in 7ms (Views: 0.3ms | ActiveRecord: 2.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:10 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>11, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:09.820Z", "updated_at"=>"2016-08-16T21:35:09.820Z", "grumble"=>{"id"=>11, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:09.820Z", "updated_at"=>"2016-08-16T21:35:09.820Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:10.062402"], ["updated_at", "2016-08-16 21:35:10.062402"]]
+  [1m[36m (1.8ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 8ms (Views: 0.2ms | ActiveRecord: 2.6ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:16 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>12, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:10.062Z", "updated_at"=>"2016-08-16T21:35:10.062Z", "grumble"=>{"id"=>12, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:10.062Z", "updated_at"=>"2016-08-16T21:35:10.062Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:16.493378"], ["updated_at", "2016-08-16 21:35:16.493378"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+Completed 201 Created in 10ms (Views: 0.1ms | ActiveRecord: 2.8ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:18 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>13, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:16.493Z", "updated_at"=>"2016-08-16T21:35:16.493Z", "grumble"=>{"id"=>13, "authorName"=>"Pamela", "content"=>nil, "title"=>"I love my class", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:35:16.493Z", "updated_at"=>"2016-08-16T21:35:16.493Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.7ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Pamela"], ["title", "I love my class"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:35:18.699443"], ["updated_at", "2016-08-16 21:35:18.699443"]]
+  [1m[36m (3.0ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 14ms (Views: 0.3ms | ActiveRecord: 4.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:25 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.9ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.4ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (18.3ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:25 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 0ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (15.3ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:25 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (3.1ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.7ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (16.5ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:35:26 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.3ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (15.2ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:37:52 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"boop", "authorName"=>"beep", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "grumble"=>{"authorName"=>"beep", "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"}}
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "beep"], ["title", "boop"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:37:52.639484"], ["updated_at", "2016-08-16 21:37:52.639484"]]
+  [1m[35m (1.9ms)[0m  COMMIT
+Completed 201 Created in 8ms (Views: 0.3ms | ActiveRecord: 2.7ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:37:53 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>15, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:37:52.639Z", "updated_at"=>"2016-08-16T21:37:52.639Z", "grumble"=>{"id"=>15, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:37:52.639Z", "updated_at"=>"2016-08-16T21:37:52.639Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "beep"], ["title", "boop"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:37:53.925188"], ["updated_at", "2016-08-16 21:37:53.925188"]]
+  [1m[36m (1.9ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 6ms (Views: 0.5ms | ActiveRecord: 2.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:38:05 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>16, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:37:53.925Z", "updated_at"=>"2016-08-16T21:37:53.925Z", "grumble"=>{"id"=>16, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:37:53.925Z", "updated_at"=>"2016-08-16T21:37:53.925Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "beep"], ["title", "boop"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:38:05.919628"], ["updated_at", "2016-08-16 21:38:05.919628"]]
+  [1m[35m (2.4ms)[0m  COMMIT
+Completed 201 Created in 6ms (Views: 0.2ms | ActiveRecord: 2.8ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:38:10 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>17, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:38:05.919Z", "updated_at"=>"2016-08-16T21:38:05.919Z", "grumble"=>{"id"=>17, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:38:05.919Z", "updated_at"=>"2016-08-16T21:38:05.919Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "beep"], ["title", "boop"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:38:10.229468"], ["updated_at", "2016-08-16 21:38:10.229468"]]
+  [1m[36m (2.9ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 12ms (Views: 0.2ms | ActiveRecord: 3.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:38:10 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>18, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:38:10.229Z", "updated_at"=>"2016-08-16T21:38:10.229Z", "grumble"=>{"id"=>18, "authorName"=>"beep", "content"=>nil, "title"=>"boop", "photoUrl"=>"https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500", "created_at"=>"2016-08-16T21:38:10.229Z", "updated_at"=>"2016-08-16T21:38:10.229Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "beep"], ["title", "boop"], ["photoUrl", "https://shechive.files.wordpress.com/2012/04/pretty-things-14.jpg?quality=80&strip=info&w=500"], ["created_at", "2016-08-16 21:38:11.003665"], ["updated_at", "2016-08-16 21:38:11.003665"]]
+  [1m[35m (2.6ms)[0m  COMMIT
+Completed 201 Created in 11ms (Views: 0.2ms | ActiveRecord: 3.6ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:14 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (3.1ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.4ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (16.5ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:27 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"boop", "authorName"=>"boop", "photoUrl"=>"boop", "grumble"=>{"authorName"=>"boop", "title"=>"boop", "photoUrl"=>"boop"}}
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:27.262158"], ["updated_at", "2016-08-16 21:44:27.262158"]]
+  [1m[36m (1.6ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 6ms (Views: 0.2ms | ActiveRecord: 1.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:28 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>20, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:27.262Z", "updated_at"=>"2016-08-16T21:44:27.262Z", "grumble"=>{"id"=>20, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:27.262Z", "updated_at"=>"2016-08-16T21:44:27.262Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:28.396215"], ["updated_at", "2016-08-16 21:44:28.396215"]]
+  [1m[35m (3.8ms)[0m  COMMIT
+Completed 201 Created in 9ms (Views: 0.4ms | ActiveRecord: 4.2ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:28 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>21, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:28.396Z", "updated_at"=>"2016-08-16T21:44:28.396Z", "grumble"=>{"id"=>21, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:28.396Z", "updated_at"=>"2016-08-16T21:44:28.396Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:28.765490"], ["updated_at", "2016-08-16 21:44:28.765490"]]
+  [1m[36m (2.4ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 10ms (Views: 0.1ms | ActiveRecord: 3.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:29 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>22, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:28.765Z", "updated_at"=>"2016-08-16T21:44:28.765Z", "grumble"=>{"id"=>22, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:28.765Z", "updated_at"=>"2016-08-16T21:44:28.765Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:29.299778"], ["updated_at", "2016-08-16 21:44:29.299778"]]
+  [1m[35m (2.1ms)[0m  COMMIT
+Completed 201 Created in 10ms (Views: 0.2ms | ActiveRecord: 3.1ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:29 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>23, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:29.299Z", "updated_at"=>"2016-08-16T21:44:29.299Z", "grumble"=>{"id"=>23, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:29.299Z", "updated_at"=>"2016-08-16T21:44:29.299Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:29.749848"], ["updated_at", "2016-08-16 21:44:29.749848"]]
+  [1m[36m (2.3ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 9ms (Views: 0.3ms | ActiveRecord: 2.6ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:30 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>24, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:29.749Z", "updated_at"=>"2016-08-16T21:44:29.749Z", "grumble"=>{"id"=>24, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:29.749Z", "updated_at"=>"2016-08-16T21:44:29.749Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:30.021281"], ["updated_at", "2016-08-16 21:44:30.021281"]]
+  [1m[35m (1.8ms)[0m  COMMIT
+Completed 201 Created in 10ms (Views: 0.2ms | ActiveRecord: 2.8ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:30 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>25, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:30.021Z", "updated_at"=>"2016-08-16T21:44:30.021Z", "grumble"=>{"id"=>25, "authorName"=>"boop", "content"=>nil, "title"=>"boop", "photoUrl"=>"boop", "created_at"=>"2016-08-16T21:44:30.021Z", "updated_at"=>"2016-08-16T21:44:30.021Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "boop"], ["title", "boop"], ["photoUrl", "boop"], ["created_at", "2016-08-16 21:44:30.248447"], ["updated_at", "2016-08-16 21:44:30.248447"]]
+  [1m[36m (1.8ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 9ms (Views: 0.2ms | ActiveRecord: 2.3ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:43 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 1ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.4ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.2ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (14.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:44:44 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"grumble"=>{}}
+Completed 400 Bad Request in 0ms (ActiveRecord: 0.0ms)
+
+ActionController::ParameterMissing (param is missing or the value is empty: grumble):
+  app/controllers/grumbles_controller.rb:40:in `grumble_params'
+  app/controllers/grumbles_controller.rb:13:in `create'
+
+
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.9ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.3ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.6ms)
+  Rendered /home/pam/.rbenv/versions/2.3.1/lib/ruby/gems/2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (15.6ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:45:03 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"lol", "authorName"=>"lolo", "photoUrl"=>"lol", "grumble"=>{"authorName"=>"lolo", "title"=>"lol", "photoUrl"=>"lol"}}
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "lolo"], ["title", "lol"], ["photoUrl", "lol"], ["created_at", "2016-08-16 21:45:03.475539"], ["updated_at", "2016-08-16 21:45:03.475539"]]
+  [1m[35m (3.0ms)[0m  COMMIT
+Completed 201 Created in 9ms (Views: 0.2ms | ActiveRecord: 3.7ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:45:04 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>27, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:03.475Z", "updated_at"=>"2016-08-16T21:45:03.475Z", "grumble"=>{"id"=>27, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:03.475Z", "updated_at"=>"2016-08-16T21:45:03.475Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "lolo"], ["title", "lol"], ["photoUrl", "lol"], ["created_at", "2016-08-16 21:45:04.444089"], ["updated_at", "2016-08-16 21:45:04.444089"]]
+  [1m[36m (3.0ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 12ms (Views: 0.2ms | ActiveRecord: 4.3ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:45:04 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>28, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.444Z", "updated_at"=>"2016-08-16T21:45:04.444Z", "grumble"=>{"id"=>28, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.444Z", "updated_at"=>"2016-08-16T21:45:04.444Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "lolo"], ["title", "lol"], ["photoUrl", "lol"], ["created_at", "2016-08-16 21:45:04.694969"], ["updated_at", "2016-08-16 21:45:04.694969"]]
+  [1m[35m (3.0ms)[0m  COMMIT
+Completed 201 Created in 10ms (Views: 0.2ms | ActiveRecord: 4.0ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:45:04 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>29, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.694Z", "updated_at"=>"2016-08-16T21:45:04.694Z", "grumble"=>{"id"=>29, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.694Z", "updated_at"=>"2016-08-16T21:45:04.694Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "lolo"], ["title", "lol"], ["photoUrl", "lol"], ["created_at", "2016-08-16 21:45:04.915863"], ["updated_at", "2016-08-16 21:45:04.915863"]]
+  [1m[36m (2.5ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 11ms (Views: 0.2ms | ActiveRecord: 3.9ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 17:45:05 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"id"=>30, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.915Z", "updated_at"=>"2016-08-16T21:45:04.915Z", "grumble"=>{"id"=>30, "authorName"=>"lolo", "content"=>nil, "title"=>"lol", "photoUrl"=>"lol", "created_at"=>"2016-08-16T21:45:04.915Z", "updated_at"=>"2016-08-16T21:45:04.915Z"}}
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "lolo"], ["title", "lol"], ["photoUrl", "lol"], ["created_at", "2016-08-16 21:45:05.166422"], ["updated_at", "2016-08-16 21:45:05.166422"]]
+  [1m[35m (2.8ms)[0m  COMMIT
+Completed 201 Created in 11ms (Views: 0.2ms | ActiveRecord: 3.8ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:48:47 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.6ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/grumbles/31" for 127.0.0.1 at 2016-08-16 17:48:53 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"31"}
+  [1m[35mGrumble Load (0.2ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 31]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:48:56 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 16ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles/7" for 127.0.0.1 at 2016-08-16 17:49:01 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"7"}
+  [1m[35mGrumble Load (0.2ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 7]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 17:49:05 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:11:39 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (1.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 21ms (Views: 0.1ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/grumbles/31" for 127.0.0.1 at 2016-08-16 18:11:42 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"31"}
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 31]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:11:44 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.5ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 18ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:13:54 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 11ms (Views: 0.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:16:42 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:16:57 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 23ms (Views: 0.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:17:37 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:17:41 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.5ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 10ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:24:19 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 12ms (Views: 0.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:24:19 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:24:23 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 8ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:24:31 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 14ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:24:35 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:31:18 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (1.6ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 17ms (Views: 0.1ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:31:18 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 15ms (Views: 0.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:31:18 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (1.5ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 11ms (Views: 0.2ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:31:34 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:32:39 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+  [1m[36m (5008.3ms)[0m  [1mDROP DATABASE IF EXISTS "grumbler_rails_api_development"[0m
+PG::ObjectInUse: ERROR:  database "grumbler_rails_api_development" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+: DROP DATABASE IF EXISTS "grumbler_rails_api_development"
+  [1m[35m (113.4ms)[0m  DROP DATABASE IF EXISTS "grumbler_rails_api_test"
+  [1m[36m (0.4ms)[0m  [1mCREATE DATABASE "grumbler_rails_api_development" ENCODING = 'unicode'[0m
+PG::DuplicateDatabase: ERROR:  database "grumbler_rails_api_development" already exists
+: CREATE DATABASE "grumbler_rails_api_development" ENCODING = 'unicode'
+  [1m[35m (255.0ms)[0m  CREATE DATABASE "grumbler_rails_api_test" ENCODING = 'unicode'
+  [1m[36mSQL (0.3ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (8.6ms)[0m  DROP TABLE "comments" CASCADE
+  [1m[36m (20.6ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "authorName" character varying, "content" text, "grumble_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (11.5ms)[0m  CREATE  INDEX  "index_comments_on_grumble_id" ON "comments" USING btree ("grumble_id")
+  [1m[36m (7.9ms)[0m  [1mDROP TABLE "grumbles" CASCADE[0m
+  [1m[35m (20.1ms)[0m  CREATE TABLE "grumbles" ("id" serial primary key, "authorName" character varying, "content" text, "title" character varying, "photoUrl" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (9.1ms)[0m  [1mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_7634355a25"
+FOREIGN KEY ("grumble_id")
+  REFERENCES "grumbles" ("id")
+[0m
+  [1m[35m (0.7ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36mSQL (1.4ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (25.6ms)[0m  CREATE TABLE "comments" ("id" serial primary key, "authorName" character varying, "content" text, "grumble_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (10.4ms)[0m  [1mCREATE  INDEX  "index_comments_on_grumble_id" ON "comments" USING btree ("grumble_id")[0m
+  [1m[35m (12.9ms)[0m  CREATE TABLE "grumbles" ("id" serial primary key, "authorName" character varying, "content" text, "title" character varying, "photoUrl" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (3.4ms)[0m  [1mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_7634355a25"
+FOREIGN KEY ("grumble_id")
+  REFERENCES "grumbles" ("id")
+[0m
+  [1m[35m (9.7ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying NOT NULL) 
+  [1m[36m (9.1ms)[0m  [1mCREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")[0m
+  [1m[35m (2.2ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (2.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150824172941')[0m
+  [1m[35m (2.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150824172906')
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mSQL (0.4ms)[0m  DELETE FROM "comments"
+  [1m[36mSQL (0.4ms)[0m  [1mDELETE FROM "grumbles"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["authorName", "Jesse"], ["title", "9 random tornadoes"], ["content", "Smile and the world smiles with you. Frown and you're on your own."], ["photoUrl", "https://splashbase.s3.amazonaws.com/unsplash/regular/tumblr_n8gyrvGyzC1st5lhmo1_1280.jpg"], ["created_at", "2016-08-16 22:34:12.727822"], ["updated_at", "2016-08-16 22:34:12.727822"]]
+  [1m[35m (2.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Adam"], ["content", "It seems like all you see on the news these days is an acne-scarred hooligan who is making a documentary of a toasty-warm and outgoing gargoyle in a glass house."], ["grumble_id", 1], ["created_at", "2016-08-16 22:34:13.141696"], ["updated_at", "2016-08-16 22:34:13.141696"]]
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Andy"], ["content", "Didn't you know? The government is secretly controlled by a demonic dwarf who is stealthily playing ping-pong against a friendly alien in Jennifer Lawrence's dressing room."], ["grumble_id", 1], ["created_at", "2016-08-16 22:34:13.425002"], ["updated_at", "2016-08-16 22:34:13.425002"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Adam"], ["title", "16 chickens taking pictures with the queen"], ["content", "Accept advice."], ["photoUrl", "https://splashbase.s3.amazonaws.com/splitshire/regular/768x506xSplitShire_5743-768x506.jpg.pagespeed.ic.gt4p2jxgmy.jpg"], ["created_at", "2016-08-16 22:34:20.636296"], ["updated_at", "2016-08-16 22:34:20.636296"]]
+  [1m[36m (2.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adam"], ["content", "I disagree. I'd encourage you to think more broadly of a classy Marine who is throwing stones at a sweaty scientist."], ["grumble_id", 2], ["created_at", "2016-08-16 22:34:20.867276"], ["updated_at", "2016-08-16 22:34:20.867276"]]
+  [1m[35m (2.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Adam"], ["content", "Hey, OP, people said the same thing when there was a green-tinged chicken who is driving a steam-roller over a blushing tour guide."], ["grumble_id", 2], ["created_at", "2016-08-16 22:34:22.877840"], ["updated_at", "2016-08-16 22:34:22.877840"]]
+  [1m[36m (2.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["authorName", "Andy"], ["title", "19 random Pixar movies"], ["content", "Don't feed Mogwais after midnight."], ["photoUrl", "https://splashbase.s3.amazonaws.com/getrefe/regular/tumblr_o9214m9vMi1slhhf0o1_1280.jpg"], ["created_at", "2016-08-16 22:34:24.695443"], ["updated_at", "2016-08-16 22:34:24.695443"]]
+  [1m[35m (3.5ms)[0m  COMMIT
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Robin"], ["content", "There is no God. There is only a smelly sailor who is vainly accompanied on the xylophone by an agile ventriloquist under the unsleeping Eye of Sauron."], ["grumble_id", 3], ["created_at", "2016-08-16 22:34:24.984785"], ["updated_at", "2016-08-16 22:34:24.984785"]]
+  [1m[36m (2.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  BEGIN
+  [1m[36mSQL (1.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Andy"], ["content", "Your post would be better if it included a disheveled and sad history professor who is bravely writing a poem about a disheveled bus driver all day long."], ["grumble_id", 3], ["created_at", "2016-08-16 22:34:25.189011"], ["updated_at", "2016-08-16 22:34:25.189011"]]
+  [1m[35m (3.6ms)[0m  COMMIT
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Robin"], ["title", "20 things you should know about eating sandwiches"], ["content", "Eat food. Not too much, mostly plants."], ["photoUrl", "https://splashbase.s3.amazonaws.com/mmt/regular/P5160585.jpg"], ["created_at", "2016-08-16 22:34:27.113347"], ["updated_at", "2016-08-16 22:34:27.113347"]]
+  [1m[36m (2.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Jesse"], ["content", "It seems like all you see on the news these days is a whiny werewolf who is sedately playing chess with a gorgeous elementary school teacher."], ["grumble_id", 4], ["created_at", "2016-08-16 22:34:27.346944"], ["updated_at", "2016-08-16 22:34:27.346944"]]
+  [1m[35m (2.4ms)[0m  COMMIT
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Jesse"], ["content", "Didn't you know? The government is secretly controlled by an orange-hued and corrupt Ewok on the tip of an iceberg."], ["grumble_id", 4], ["created_at", "2016-08-16 22:34:27.555543"], ["updated_at", "2016-08-16 22:34:27.555543"]]
+  [1m[36m (1.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adam"], ["content", "Ugh. Modern society is so obsessed with a troublesome, ancient, and toasty-warm Marine."], ["grumble_id", 4], ["created_at", "2016-08-16 22:34:27.755808"], ["updated_at", "2016-08-16 22:34:27.755808"]]
+  [1m[35m (1.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Adrian"], ["content", "There is no God. There is only an aggressive and frightening Presidential candidate who is obnoxiously folding laundry for a snide and smug hooligan."], ["grumble_id", 4], ["created_at", "2016-08-16 22:34:32.960262"], ["updated_at", "2016-08-16 22:34:32.960262"]]
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Andy"], ["content", "It seems like all you see on the news these days is a fishy coal miner who is disgruntledly wrapping a Chanukah present for a disheveled British Queen."], ["grumble_id", 4], ["created_at", "2016-08-16 22:34:33.179690"], ["updated_at", "2016-08-16 22:34:33.179690"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Adrian"], ["title", "9 things you didn't know about wearing a tux"], ["content", "Everyone has their down days. Don't take it out on innocent bystanders."], ["photoUrl", "https://splashbase.s3.amazonaws.com/jaymantri/regular/tumblr_ng38sk74B71qfirfao1_1280.jpg"], ["created_at", "2016-08-16 22:34:35.005035"], ["updated_at", "2016-08-16 22:34:35.005035"]]
+  [1m[36m (1.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adam"], ["content", "I've responded to this in my post about an orange-hued basketball player who is proposing marriage to a classy and fashionable chicken."], ["grumble_id", 5], ["created_at", "2016-08-16 22:34:35.248511"], ["updated_at", "2016-08-16 22:34:35.248511"]]
+  [1m[35m (2.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Robin"], ["content", "That photo reminds me of the time I saw sheepishly providing career counseling for a well-dressed Air Force cadet one day before the wedding."], ["grumble_id", 5], ["created_at", "2016-08-16 22:34:35.484391"], ["updated_at", "2016-08-16 22:34:35.484391"]]
+  [1m[36m (2.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Jesse"], ["content", "Your post would be better if it included a scrawny waitress who is happily stealing from a Jedi Knight."], ["grumble_id", 5], ["created_at", "2016-08-16 22:34:35.697690"], ["updated_at", "2016-08-16 22:34:35.697690"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "content", "photoUrl", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["authorName", "Matt"], ["title", "15 over-rated Pixar movies and Justin Bieber quotes"], ["content", "YOLO"], ["photoUrl", "https://splashbase.s3.amazonaws.com/snapwiresnaps/regular/tumblr_nskqgjbECi1teue7jo1_1280.jpg"], ["created_at", "2016-08-16 22:34:42.442328"], ["updated_at", "2016-08-16 22:34:42.442328"]]
+  [1m[36m (3.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adrian"], ["content", "This just goes to show your ignorance about stealing from a cute Greek demigod."], ["grumble_id", 6], ["created_at", "2016-08-16 22:34:42.688232"], ["updated_at", "2016-08-16 22:34:42.688232"]]
+  [1m[35m (2.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["authorName", "Andy"], ["content", "Who wrote this? It sounds like it was written by a possessive and hot nun in Jennifer Lawrence's dressing room."], ["grumble_id", 6], ["created_at", "2016-08-16 22:34:42.931910"], ["updated_at", "2016-08-16 22:34:42.931910"]]
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("authorName", "content", "grumble_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["authorName", "Adam"], ["content", "I disagree. I'd encourage you to think more broadly of a smelly elf and an ancient computer programmer."], ["grumble_id", 6], ["created_at", "2016-08-16 22:34:47.981393"], ["updated_at", "2016-08-16 22:34:47.981393"]]
+  [1m[35m (1.5ms)[0m  COMMIT
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:40:23 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (2.8ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 2.8ms)
+
+
+Started POST "/grumbles" for 127.0.0.1 at 2016-08-16 18:40:43 -0400
+Processing by GrumblesController#create as HTML
+  Parameters: {"title"=>"123 random sauce", "authorName"=>"super", "grumble"=>{"authorName"=>"super", "title"=>"123 random sauce"}}
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "grumbles" ("authorName", "title", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["authorName", "super"], ["title", "123 random sauce"], ["created_at", "2016-08-16 22:40:43.619163"], ["updated_at", "2016-08-16 22:40:43.619163"]]
+  [1m[36m (2.4ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 6ms (Views: 0.1ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:40:45 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:40:57 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:42:34 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (1.7ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:42:44 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:24 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:25 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:25 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 12ms (Views: 0.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:25 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:26 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (1.5ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:44:34 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:46:36 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:46:38 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:46:38 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:46:39 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:46:47 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles/6" for 127.0.0.1 at 2016-08-16 18:47:10 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 6]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:44 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:51 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:54 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:54 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.5ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 7ms (Views: 0.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:54 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:47:55 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:48:34 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.6ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 20ms (Views: 0.4ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:48:36 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.3ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:48:44 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.3ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:50:15 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles/7" for 127.0.0.1 at 2016-08-16 18:50:18 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"7"}
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 7]]
+Completed 200 OK in 10ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+
+
+Started PUT "/grumbles/7" for 127.0.0.1 at 2016-08-16 18:50:26 -0400
+Processing by GrumblesController#update as HTML
+  Parameters: {"id"=>"7", "authorName"=>"super", "content"=>nil, "title"=>"54321", "photoUrl"=>nil, "created_at"=>"2016-08-16T22:40:43.619Z", "updated_at"=>"2016-08-16T22:40:43.619Z", "grumble"=>{"id"=>"7", "authorName"=>"super", "content"=>nil, "title"=>"54321", "photoUrl"=>nil, "created_at"=>"2016-08-16T22:40:43.619Z", "updated_at"=>"2016-08-16T22:40:43.619Z"}}
+  [1m[36mGrumble Load (0.6ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 7]]
+Unpermitted parameters: id, created_at, updated_at
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "grumbles" SET "title" = $1, "updated_at" = $2 WHERE "grumbles"."id" = $3[0m  [["title", "54321"], ["updated_at", "2016-08-16 22:50:26.366377"], ["id", 7]]
+  [1m[35m (1.6ms)[0m  COMMIT
+Completed 200 OK in 10ms (Views: 0.1ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 18:50:28 -0400
+Processing by GrumblesController#index as HTML
+  [1m[36mGrumble Load (0.4ms)[0m  [1mSELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC[0m
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 22:56:23 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/grumbles/7" for 127.0.0.1 at 2016-08-16 22:56:27 -0400
+Processing by GrumblesController#show as HTML
+  Parameters: {"id"=>"7"}
+  [1m[36mGrumble Load (0.2ms)[0m  [1mSELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1[0m  [["id", 7]]
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started DELETE "/grumbles/7" for 127.0.0.1 at 2016-08-16 22:56:30 -0400
+Processing by GrumblesController#destroy as HTML
+  Parameters: {"id"=>"7"}
+  [1m[35mGrumble Load (0.8ms)[0m  SELECT  "grumbles".* FROM "grumbles" WHERE "grumbles"."id" = $1 LIMIT 1  [["id", 7]]
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mComment Load (0.3ms)[0m  SELECT "comments".* FROM "comments" WHERE "comments"."grumble_id" = $1  [["grumble_id", 7]]
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "grumbles" WHERE "grumbles"."id" = $1[0m  [["id", 7]]
+  [1m[35mGrumble Load (0.2ms)[0m  SELECT "grumbles".* FROM "grumbles"
+  [1m[36m (14.1ms)[0m  [1mCOMMIT[0m
+Completed 200 OK in 33ms (Views: 0.2ms | ActiveRecord: 16.6ms)
+
+
+Started GET "/grumbles" for 127.0.0.1 at 2016-08-16 22:56:33 -0400
+Processing by GrumblesController#index as HTML
+  [1m[35mGrumble Load (0.4ms)[0m  SELECT "grumbles".* FROM "grumbles"  ORDER BY "grumbles"."created_at" ASC
+Completed 200 OK in 3ms (Views: 0.1ms | ActiveRecord: 0.4ms)
